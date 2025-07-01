@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Устинов Алексей](https://up.htmlacademy.ru/javascript-individual/2/user/1453615).
-* Наставник: `Неизвестно`.
+* Наставник: [Станислав Михайлов](https://htmlacademy.ru/profile/id139638).
 
 ---
 

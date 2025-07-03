@@ -17,7 +17,7 @@ const isStringPalindrome = (string) => {
     return 'В строке нет букв';
   }
 
-  return stringSymbols.join('') === stringSimbols.reverse().join('');
+  return stringSymbols.join('') === stringSymbols.reverse().join('');
 };
 
 export {isStringLengthValid, getNumbers, isStringPalindrome};

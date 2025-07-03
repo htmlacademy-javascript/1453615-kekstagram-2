@@ -10,14 +10,14 @@ const getNumbers = (string) => {
   return parseInt(stringNumbers.join(''), 10);
 };
 
-const isStringPalindrom = (string) => {
-  const stringSimbols = string.toString().toLowerCase().match(/[а-я]/g) ?? [];
+const isStringPalindrome = (string) => {
+  const stringSymbols = string.toString().toLowerCase().match(/[а-я]/g) ?? [];
 
-  if (stringSimbols.length === 0) {
+  if (stringSymbols.length === 0) {
     return 'В строке нет букв';
   }
 
-  return stringSimbols.join('') === stringSimbols.reverse().join('');
+  return stringSymbols.join('') === stringSimbols.reverse().join('');
 };
 
-export {isStringLengthValid, getNumbers, isStringPalindrom};
+export {isStringLengthValid, getNumbers, isStringPalindrome};

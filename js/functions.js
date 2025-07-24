@@ -20,4 +20,18 @@ const isStringPalindrome = (string) => {
   return stringSymbols.join('') === stringSymbols.reverse().join('');
 };
 
-export {isStringLengthValid, getNumbers, isStringPalindrome};
+const getDayMinutes = (time) => {
+  return time.split(':')
+    .map(item => parseInt(item))
+    .reduce((minutes, item, index) => index === 0 ? minutes + item * 60 : minutes + item, 0);
+};
+
+const isMeetingInWorkTime = (workStartTime, workEndTime, meetingStartTime, meetingDuration) => {
+  const isMeetingInWorkTime =
+    getDayMinutes(workStartTime) < getDayMinutes(meetingStartTime) ||
+    getDayMinutes(meetingStartTime) + meetingDuration > getDayMinutes(workEndTime);
+
+  return isMeetingInWorkTime;
+}
+
+export {isStringLengthValid, getNumbers, isStringPalindrome, isMeetingInWorkTime};

@@ -21,17 +21,18 @@ const isStringPalindrome = (string) => {
 };
 
 const getDayMinutes = (time) => {
-  return time.split(':')
-    .map(item => parseInt(item))
+  const dayMinutes = time.split(':')
+    .map((item) => parseInt(item, 10))
     .reduce((minutes, item, index) => index === 0 ? minutes + item * 60 : minutes + item, 0);
+
+  return dayMinutes;
 };
 
 const isMeetingInWorkTime = (workStartTime, workEndTime, meetingStartTime, meetingDuration) => {
-  const isMeetingInWorkTime =
-    getDayMinutes(workStartTime) < getDayMinutes(meetingStartTime) ||
-    getDayMinutes(meetingStartTime) + meetingDuration > getDayMinutes(workEndTime);
+  const isInWorkTime = getDayMinutes(workStartTime) <= getDayMinutes(meetingStartTime) &&
+    getDayMinutes(meetingStartTime) + meetingDuration <= getDayMinutes(workEndTime);
 
-  return isMeetingInWorkTime;
-}
+  return isInWorkTime;
+};
 
 export {isStringLengthValid, getNumbers, isStringPalindrome, isMeetingInWorkTime};

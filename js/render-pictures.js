@@ -1,3 +1,5 @@
+import {openFullPicture} from './open-fill-picture.js';
+
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesList = document.querySelector('.pictures');
 const picturesListFragment = document.createDocumentFragment();
@@ -18,6 +20,21 @@ const renderPictures = (images) => {
   });
 
   picturesList.appendChild(picturesListFragment);
+
+  picturesList.addEventListener('click', (evt) => {
+    const targetPicture = evt.target.closest('.picture');
+
+    if (!targetPicture) {
+      return;
+    }
+
+    evt.preventDefault();
+    images.filter((image) => {
+      if (image.id === +targetPicture.dataset.pictureId) {
+        openFullPicture(image);
+      }
+    });
+  });
 };
 
 export {renderPictures};

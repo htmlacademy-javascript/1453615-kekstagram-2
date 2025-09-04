@@ -1,4 +1,4 @@
-const isStringLengthValid = (string, length) => string.length <= length;
+const isStringLengthValid = (string, length) => string.length > length;
 
 const getNumbers = (string) => {
   const stringNumbers = string.toString().match(/\d/g) ?? [];

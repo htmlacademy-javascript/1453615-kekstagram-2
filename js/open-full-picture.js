@@ -4,7 +4,7 @@ import {createCommentsRenderer} from './render-comments.js';
 
 const bigPictureModalElement = document.querySelector('.big-picture');
 const pictureCloseButtonElement = document.querySelector('#picture-cancel');
-const commentsLoaderButton = document.querySelector('.social__comments-loader');
+const commentsLoadButtonElement = document.querySelector('.social__comments-loader');
 
 let commentsRenderer = null;
 let onCommentsLoadButtonClick = null;
@@ -13,7 +13,7 @@ function closePictureModal() {
   closeModal(bigPictureModalElement);
   document.removeEventListener('keydown', onPreviewEscapeKeydown);
   pictureCloseButtonElement.removeEventListener('click', onPreviewCloseButtonClick);
-  commentsLoaderButton.removeEventListener('click', onCommentsLoadButtonClick);
+  commentsLoadButtonElement.removeEventListener('click', onCommentsLoadButtonClick);
 
   commentsRenderer = null;
   onCommentsLoadButtonClick = null;
@@ -43,7 +43,7 @@ const openFullPicture = (picture) => {
   commentsRenderer = createCommentsRenderer(picture.comments);
   onCommentsLoadButtonClick = commentsRenderer.createCommentLoaderButtonHandler();
   commentsRenderer.init();
-  commentsLoaderButton.addEventListener('click', onCommentsLoadButtonClick);
+  commentsLoadButtonElement.addEventListener('click', onCommentsLoadButtonClick);
 };
 
 export {openFullPicture};

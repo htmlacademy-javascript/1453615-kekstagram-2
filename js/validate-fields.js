@@ -19,7 +19,7 @@ const pristine = new Pristine(formUpload, {
   errorTextClass: 'img-upload__error'
 });
 
-const formSubminIsDisable = () => {
+const isFormSubmitDisable = () => {
   formUploadSubmit.disabled = !pristine.validate();
 };
 
@@ -85,7 +85,7 @@ const hashtagsValidateHandler = (value) => {
 pristine.addValidator(hashtagsInputField, hashtagsValidateHandler, error, 2, false);
 
 const onHashtagFieldInput = () => {
-  formSubminIsDisable();
+  isFormSubmitDisable();
 };
 
 const onHashtagsFieldKeydown = (evt) => {

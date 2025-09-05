@@ -1,8 +1,7 @@
-import {stopEscapeOnFocus} from './util.js';
-import {isStringLengthValid} from './functions.js';
+import {stopEscapeOnFocus, isStringLengthValid} from './util.js';
 
-const MAX_HASHTAG_SYMBOLS = 20;
 const MAX_HASHTAGS_COUNT = 5;
+const MAX_HASHTAG_SYMBOLS = 20;
 const MAX_DESCRIPTION_SYMBOLS = 140;
 
 const formUpload = document.querySelector('.img-upload__form');
@@ -19,7 +18,7 @@ const pristine = new Pristine(formUpload, {
   errorTextClass: 'img-upload__error'
 });
 
-const isFormSubmitDisable = () => {
+const isFormSubmitDisabled = () => {
   formUploadSubmit.disabled = !pristine.validate();
 };
 
@@ -85,7 +84,7 @@ const hashtagsValidateHandler = (value) => {
 pristine.addValidator(hashtagsInputField, hashtagsValidateHandler, error, 2, false);
 
 const onHashtagFieldInput = () => {
-  isFormSubmitDisable();
+  isFormSubmitDisabled();
 };
 
 const onHashtagsFieldKeydown = (evt) => {

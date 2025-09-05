@@ -1,39 +1,49 @@
-import {isEscapeKey} from './util.js';
-import {renderFullPicture} from './render-full-picture.js';
+import {isEscapeKey, openModal, closeModal} from './util.js';
+import {renderImagePreview} from './render-full-picture.js';
+import {createCommentsRenderer} from './render-comments.js';
 
-const bigPictureElement = document.querySelector('.big-picture');
+const bigPictureModalElement = document.querySelector('.big-picture');
 const pictureCloseButtonElement = document.querySelector('#picture-cancel');
+const commentsLoaderButton = document.querySelector('.social__comments-loader');
 
-const closeModal = (modalElement) => {
-  modalElement.classList.add('hidden');
-  document.querySelector('body').classList.remove('modal-open');
+let commentsRenderer = null;
+let onCommentsLoadButtonClick = null;
+
+function closePictureModal() {
+  closeModal(bigPictureModalElement);
   document.removeEventListener('keydown', onPreviewEscapeKeydown);
   pictureCloseButtonElement.removeEventListener('click', onPreviewCloseButtonClick);
-};
+  commentsLoaderButton.removeEventListener('click', onCommentsLoadButtonClick);
 
-const openModal = (modalElement) => {
-  modalElement.classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
+  commentsRenderer = null;
+  onCommentsLoadButtonClick = null;
+}
+
+function openPictureModal() {
+  openModal(bigPictureModalElement);
   document.addEventListener('keydown', onPreviewEscapeKeydown);
   pictureCloseButtonElement.addEventListener('click', onPreviewCloseButtonClick);
-
-  document.querySelector('.social__comment-count').classList.add('hidden');
-  document.querySelector('.comments-loader').classList.add('hidden');
-};
+}
 
 function onPreviewEscapeKeydown(evt) {
   if (isEscapeKey(evt)) {
-    closeModal(bigPictureElement);
+    closePictureModal();
   }
 }
 
 function onPreviewCloseButtonClick() {
-  closeModal(bigPictureElement);
+  closePictureModal();
 }
 
 const openFullPicture = (picture) => {
-  openModal(bigPictureElement);
-  renderFullPicture(picture);
+  openPictureModal();
+
+  renderImagePreview(picture);
+
+  commentsRenderer = createCommentsRenderer(picture.comments);
+  onCommentsLoadButtonClick = commentsRenderer.createCommentLoaderButtonHandler();
+  commentsRenderer.init();
+  commentsLoaderButton.addEventListener('click', onCommentsLoadButtonClick);
 };
 
 export {openFullPicture};

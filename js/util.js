@@ -12,4 +12,20 @@ const getRandomInt = (min, max) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInt, isEscapeKey};
+const closeModal = (modalElement) => {
+  modalElement.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+};
+
+const openModal = (modalElement) => {
+  modalElement.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
+};
+
+const stopEscapeOnFocus = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.stopPropagation();
+  }
+};
+
+export {getRandomInt, isEscapeKey, openModal, closeModal, stopEscapeOnFocus};

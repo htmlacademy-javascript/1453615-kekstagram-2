@@ -33,4 +33,4 @@ const isMeetingInWorkTime = (workStartTime, workEndTime, meetingStartTime, meeti
   return isInWorkTime;
 };
 
-export {isStringLengthValid, getNumbers, isStringPalindrome, isMeetingInWorkTime};
+export {getNumbers, isStringPalindrome, isMeetingInWorkTime};

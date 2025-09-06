@@ -38,11 +38,7 @@ const renderComments = (comments, count) => {
 };
 
 const renderCommentsCounter = (currentCount, totalCount) => {
-  if (currentCount >= totalCount) {
-    commentsLoaderButton.classList.add('hidden');
-  } else {
-    commentsLoaderButton.classList.remove('hidden');
-  }
+  commentsLoaderButton.classList.toggle('hidden', currentCount >= totalCount);
 
   if (totalCount === 0) {
     commentsCounterElement.textContent = 'Нет комментариев';

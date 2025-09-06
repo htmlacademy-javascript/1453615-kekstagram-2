@@ -30,4 +30,13 @@ const stopEscapeOnFocus = (evt) => {
   }
 };
 
-export {getRandomInt, isStringLengthValid, isEscapeKey, openModal, closeModal, stopEscapeOnFocus};
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomInt, isStringLengthValid, isEscapeKey, openModal, closeModal, stopEscapeOnFocus, debounce};

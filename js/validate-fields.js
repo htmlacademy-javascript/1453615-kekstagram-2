@@ -21,9 +21,9 @@ const isFormSubmitDisabled = () => {
 
 let errorMessage = '';
 
-const error = () => errorMessage;
+const getErrorMessage = () => errorMessage;
 
-const hashtagsValidateHandler = (value) => {
+const validateHashtagsInput = (value) => {
   errorMessage = '';
 
   const inputText = value.toLowerCase().trim();
@@ -32,39 +32,39 @@ const hashtagsValidateHandler = (value) => {
     return true;
   }
 
-  const inputArray = inputText.split(/\s+/);
+  const inputHashtags = inputText.split(/\s+/);
 
-  if (inputArray.length === 0) {
+  if (inputHashtags.length === 0) {
     return true;
   }
 
   const rules = [
     {
-      check: inputArray.some((item) => item.indexOf('#', 1) >= 1),
+      check: inputHashtags.some((item) => item.indexOf('#', 1) >= 1),
       error: 'Хэш-теги разделяются пробелами'
     },
     {
-      check: inputArray.some((item) => item[0] !== '#'),
+      check: inputHashtags.some((item) => item[0] !== '#'),
       error: 'Хэш-тег должен начинаться с символа #'
     },
     {
-      check: inputArray.some((item) => item[0] === '#' && item.length === 1),
+      check: inputHashtags.some((item) => item[0] === '#' && item.length === 1),
       error: 'Хэш-тег не может состоять только из одной решетки'
     },
     {
-      check: inputArray.some((item) => isStringLengthValid(item, TextField.MAX_HASHTAG_SYMBOLS)),
+      check: inputHashtags.some((item) => isStringLengthValid(item, TextField.MAX_HASHTAG_SYMBOLS)),
       error: `Максимальная длина одного хэш-тега ${TextField.MAX_HASHTAG_SYMBOLS} символов, включая решетку`
     },
     {
-      check: inputArray.length > TextField.MAX_HASHTAGS_COUNT,
+      check: inputHashtags.length > TextField.MAX_HASHTAGS_COUNT,
       error: `Нельзя указать больше ${TextField.MAX_HASHTAGS_COUNT} хэш-тегов`
     },
     {
-      check: inputArray.some((item, num, arr) => arr.includes(item, num + 1)),
+      check: inputHashtags.some((item, num, items) => items.includes(item, num + 1)),
       error: 'Хэш-теги не должны повторяться'
     },
     {
-      check: inputArray.some((item) => !/^#[a-zа-яё0-9]{1,19}$/i.test(item)),
+      check: inputHashtags.some((item) => !/^#[a-zа-яё0-9]{1,19}$/i.test(item)),
       error: 'Хэш-тег содержит недопустимые символы'
     }
   ];
@@ -78,7 +78,7 @@ const hashtagsValidateHandler = (value) => {
   });
 };
 
-pristine.addValidator(hashtagsInputField, hashtagsValidateHandler, error, 2, false);
+pristine.addValidator(hashtagsInputField, validateHashtagsInput, getErrorMessage, 2, false);
 
 const onHashtagFieldInput = () => {
   isFormSubmitDisabled();
@@ -91,7 +91,7 @@ const onHashtagsFieldKeydown = (evt) => {
 hashtagsInputField.addEventListener('input', onHashtagFieldInput);
 hashtagsInputField.addEventListener('keydown', onHashtagsFieldKeydown);
 
-const descriptionValidateHandler = (value) => {
+const validateDescriptionInput = (value) => {
   errorMessage = '';
   const inputText = value.trim();
   const isInvalid = isStringLengthValid(inputText, TextField.MAX_DESCRIPTION_SYMBOLS);
@@ -103,7 +103,7 @@ const descriptionValidateHandler = (value) => {
   return !isInvalid;
 };
 
-pristine.addValidator(descriptionInputField, descriptionValidateHandler, error, 2, false);
+pristine.addValidator(descriptionInputField, validateDescriptionInput, getErrorMessage, 2, false);
 
 const onDescriptionInput = () => {
   formUploadSubmit.disabled = !pristine.validate();

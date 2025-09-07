@@ -12,7 +12,7 @@ const pristine = new Pristine(formUpload, {
   successClass: 'img-upload__field-wrapper--valid',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextTag: 'div',
-  errorTextClass: 'img-upload__error'
+  errorTextClass: 'img-upload__field-wrapper--error'
 });
 
 const isFormSubmitDisabled = () => {

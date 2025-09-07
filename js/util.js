@@ -10,6 +10,17 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = getRandomInt(0, array.length - 1);
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array;
+};
+
+const isStringLengthValid = (string, length) => string.length > length;
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const closeModal = (modalElement) => {
@@ -28,4 +39,22 @@ const stopEscapeOnFocus = (evt) => {
   }
 };
 
-export {getRandomInt, isEscapeKey, openModal, closeModal, stopEscapeOnFocus};
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {
+  getRandomInt,
+  shuffleArray,
+  isStringLengthValid,
+  isEscapeKey,
+  openModal,
+  closeModal,
+  stopEscapeOnFocus,
+  debounce
+};

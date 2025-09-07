@@ -1,5 +1,3 @@
-const isStringLengthValid = (string, length) => string.length > length;
-
 const getNumbers = (string) => {
   const stringNumbers = string.toString().match(/\d/g) ?? [];
 
@@ -35,4 +33,4 @@ const isMeetingInWorkTime = (workStartTime, workEndTime, meetingStartTime, meeti
   return isInWorkTime;
 };
 
-export {isStringLengthValid, getNumbers, isStringPalindrome, isMeetingInWorkTime};
+export {getNumbers, isStringPalindrome, isMeetingInWorkTime};

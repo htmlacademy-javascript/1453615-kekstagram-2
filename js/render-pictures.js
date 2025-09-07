@@ -1,4 +1,4 @@
-import {openFullPicture} from './open-fill-picture.js';
+import {openFullPicture} from './open-full-picture.js';
 
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesList = document.querySelector('.pictures');

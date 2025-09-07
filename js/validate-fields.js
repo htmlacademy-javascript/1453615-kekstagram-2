@@ -1,8 +1,5 @@
+import {TextField} from './config.js';
 import {stopEscapeOnFocus, isStringLengthValid} from './util.js';
-
-const MAX_HASHTAGS_COUNT = 5;
-const MAX_HASHTAG_SYMBOLS = 20;
-const MAX_DESCRIPTION_SYMBOLS = 140;
 
 const formUpload = document.querySelector('.img-upload__form');
 const formUploadSubmit = document.querySelector('.img-upload__submit');
@@ -55,12 +52,12 @@ const hashtagsValidateHandler = (value) => {
       error: 'Хэш-тег не может состоять только из одной решетки'
     },
     {
-      check: inputArray.some((item) => isStringLengthValid(item, MAX_HASHTAG_SYMBOLS)),
-      error: `Максимальная длина одного хэш-тега ${MAX_HASHTAG_SYMBOLS} символов, включая решетку`
+      check: inputArray.some((item) => isStringLengthValid(item, TextField.MAX_HASHTAG_SYMBOLS)),
+      error: `Максимальная длина одного хэш-тега ${TextField.MAX_HASHTAG_SYMBOLS} символов, включая решетку`
     },
     {
-      check: inputArray.length > MAX_HASHTAGS_COUNT,
-      error: `Нельзя указать больше ${MAX_HASHTAGS_COUNT} хэш-тегов`
+      check: inputArray.length > TextField.MAX_HASHTAGS_COUNT,
+      error: `Нельзя указать больше ${TextField.MAX_HASHTAGS_COUNT} хэш-тегов`
     },
     {
       check: inputArray.some((item, num, arr) => arr.includes(item, num + 1)),
@@ -97,10 +94,10 @@ hashtagsInputField.addEventListener('keydown', onHashtagsFieldKeydown);
 const descriptionValidateHandler = (value) => {
   errorMessage = '';
   const inputText = value.trim();
-  const isInvalid = isStringLengthValid(inputText, MAX_DESCRIPTION_SYMBOLS);
+  const isInvalid = isStringLengthValid(inputText, TextField.MAX_DESCRIPTION_SYMBOLS);
 
   if (isInvalid) {
-    errorMessage = `Максимальная длина комментария ${MAX_DESCRIPTION_SYMBOLS} символов`;
+    errorMessage = `Максимальная длина комментария ${TextField.MAX_DESCRIPTION_SYMBOLS} символов`;
   }
 
   return !isInvalid;

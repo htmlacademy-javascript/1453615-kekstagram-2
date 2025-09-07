@@ -1,22 +1,17 @@
-const ImageScaleSetting = {
-  INITIAL: 100,
-  MIN: 25,
-  MAX: 100,
-  STEP: 25
-};
+import {ImageScale} from './config.js';
 
 const imageScalerOutputElement = document.querySelector('.scale__control--value');
 const imagePreviewElement = document.querySelector('.img-upload__preview img');
 
-imageScalerOutputElement.value = ImageScaleSetting.INITIAL;
+imageScalerOutputElement.value = ImageScale.INITIAL;
 
 const getScaleDirection = (isUp) => {
   const scaleCoefficient = isUp ? 1 : -1;
 
   const changeUploadScalerValue = (currentValue) => {
-    const changedValue = currentValue + ImageScaleSetting.STEP * scaleCoefficient;
+    const changedValue = currentValue + ImageScale.STEP * scaleCoefficient;
 
-    if (changedValue > ImageScaleSetting.MAX || changedValue < ImageScaleSetting.MIN) {
+    if (changedValue > ImageScale.MAX || changedValue < ImageScale.MIN) {
       return currentValue;
     }
 
@@ -46,4 +41,4 @@ const onImageScalerClick = (evt) => {
   imagePreviewElement.style.transform = `scale(${currentScaleValue / 100})`;
 };
 
-export {ImageScaleSetting, onImageScalerClick};
+export {ImageScale, onImageScalerClick};

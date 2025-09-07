@@ -1,29 +1,34 @@
-const ALERT_TIMEOUT = 3000;
+import {Alert} from './config.js';
+import {isEscapeKey} from './util.js';
 
-// const showErrorAlert = (message) => {
-//   const alertElement = document.createElement('div');
-//   alertElement.classList.add('error-message');
-//   alertElement.textContent = message;
-//   document.body.append(alertElement);
-
-//   setTimeout(() => {
-//     alertElement.remove();
-//   }, ALERT_TIMEOUT);
-// };
-
-const showAlert = (selector) => {
-  const alertTemplate = document.querySelector(`#${selector}`).content.querySelector(`.${selector}`);
+const showErrorDataAlert = (alertTemplateName) => {
+  const alertTemplate = document.querySelector(`#${alertTemplateName}`)
+    .content.querySelector(`.${alertTemplateName}`);
   const alertElement = alertTemplate.cloneNode(true);
-  const alertSubmitButtonElement = alertElement.querySelector(`.${selector}__button`);
+  document.body.append(alertElement);
+
+  setTimeout(() => {
+    alertElement.remove();
+  }, Alert.TIMEOUT);
+};
+
+const showAlert = (alertTemplateName) => {
+  const alertTemplate = document.querySelector(`#${alertTemplateName}`)
+    .content.querySelector(`.${alertTemplateName}`);
+  const alertElement = alertTemplate.cloneNode(true);
+  const alertSubmitButtonElement = alertElement.querySelector(`.${alertTemplateName}__button`);
   document.body.appendChild(alertElement);
 
-  const closeAlert = () => {
+  alertSubmitButtonElement.addEventListener('click', onAlertSubmitButtonClick);
+  alertElement.addEventListener('click', onAlertOverlayClick);
+  document.addEventListener('keydown', onAlertEscapeKeydown);
+
+  function closeAlert() {
     alertSubmitButtonElement.removeEventListener('click', onAlertSubmitButtonClick);
     alertElement.removeEventListener('click', onAlertOverlayClick);
     alertElement.remove();
     document.removeEventListener('keydown', onAlertEscapeKeydown);
-    imageUploadOverlayElement.classList.toggle('hidden', selector === ERROR_CLASS);
-  };
+  }
 
   function onAlertEscapeKeydown (evt) {
     if (isEscapeKey(evt)) {
@@ -36,14 +41,10 @@ const showAlert = (selector) => {
   }
 
   function onAlertOverlayClick (evt) {
-    if (evt.target.closest(`#${selector}`) || !evt.target.closest(`.${selector}__inner`)) {
+    if (evt.target.closest(`#${alertTemplateName}`) || !evt.target.closest(`.${alertTemplateName}__inner`)) {
       closeAlert();
     }
   }
-
-  alertSubmitButtonElement.addEventListener('click', onAlertSubmitButtonClick);
-  alertElement.addEventListener('click', onAlertOverlayClick);
-  document.addEventListener('keydown', onAlertEscapeKeydown);
 };
 
-export {showAlert};
+export {showAlert, showErrorDataAlert};

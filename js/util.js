@@ -10,6 +10,15 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = getRandomInt(0, array.length - 1);
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array;
+};
+
 const isStringLengthValid = (string, length) => string.length > length;
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
@@ -39,4 +48,13 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {getRandomInt, isStringLengthValid, isEscapeKey, openModal, closeModal, stopEscapeOnFocus, debounce};
+export {
+  getRandomInt,
+  shuffleArray,
+  isStringLengthValid,
+  isEscapeKey,
+  openModal,
+  closeModal,
+  stopEscapeOnFocus,
+  debounce
+};

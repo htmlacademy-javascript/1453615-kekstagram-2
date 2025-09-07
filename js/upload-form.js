@@ -1,14 +1,18 @@
+import {Alert, SubmitButtonText, UserImageEffect, ImageScale} from './config.js';
 import {closeModal, openModal, isEscapeKey} from './util.js';
 import {hashtagsInputField, descriptionInputField} from './validate-fields.js';
 import {imageUploadInputElement} from './upload-photo.js';
-import {ImageScaleSetting, onImageScalerClick} from './scale.js';
+import {onImageScalerClick} from './scale.js';
 import {onImageUploadEffectChange} from './effects.js';
-// import {showAlert} from './alert.js';
-
-const INITIAL_EFFECT = 'none';
+import {createRequest} from './fetch.js';
+import {showAlert} from './alert.js';
 
 const imageUploadOverlayElement = document.querySelector('.img-upload__overlay');
 const imageUploadCloseButtonElement = document.querySelector('.img-upload__cancel');
+
+const imageUploadFormElement = document.querySelector('.img-upload__form');
+const uploadSubmitButton = document.querySelector('#upload-submit');
+
 const imagePreviewElement = document.querySelector('.img-upload__preview img');
 const imageScalerOutputElement = document.querySelector('.scale__control--value');
 const imageScalerElement = document.querySelector('.img-upload__scale');
@@ -22,8 +26,8 @@ imageEffectsControlElements.addEventListener('change', onImageUploadEffectChange
 const resetImageUploadForm = () => {
   imageUploadInputElement.value = '';
   imagePreviewElement.removeAttribute('class');
-  imageScalerOutputElement.value = ImageScaleSetting.INITIAL;
-  imagePreviewElement.style = INITIAL_EFFECT;
+  imageScalerOutputElement.value = ImageScale.INITIAL;
+  imagePreviewElement.style = UserImageEffect.INITIAL;
   noneEffectControlElement.checked = true;
   imageEffectsControlElement.classList.add('hidden');
   hashtagsInputField.value = '';
@@ -31,7 +35,7 @@ const resetImageUploadForm = () => {
 };
 
 const onUploadEscapeKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && !document.querySelector(`.${Alert.UPLOAD_ERROR}`)) {
     resetImageUploadForm();
     closeModal(imageUploadOverlayElement);
     document.removeEventListener('keydown', onUploadEscapeKeydown);
@@ -52,5 +56,43 @@ const onUploadCloseButtonClick = (evt) => {
 };
 
 imageUploadCloseButtonElement.addEventListener('click', onUploadCloseButtonClick);
+
+const blockSubmitButton = () => {
+  uploadSubmitButton.disabled = true;
+  uploadSubmitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  uploadSubmitButton.disabled = false;
+  uploadSubmitButton.textContent = SubmitButtonText.NORMAL;
+};
+
+const onFormSuccessSubmit = () => {
+  showAlert(Alert.UPLOAD_SUCCESS);
+  closeModal(imageUploadOverlayElement);
+  resetImageUploadForm();
+  unblockSubmitButton();
+  document.removeEventListener('keydown', onUploadEscapeKeydown);
+};
+
+const onFormErrorSubmit = () => {
+  showAlert(Alert.UPLOAD_ERROR);
+  unblockSubmitButton();
+};
+
+const postUploadForm = () => createRequest(
+  onFormSuccessSubmit,
+  onFormErrorSubmit,
+  'POST',
+  new FormData(imageUploadFormElement)
+);
+
+const onUploadFormSubmit = (evt) => {
+  evt.preventDefault();
+  blockSubmitButton();
+  postUploadForm();
+};
+
+imageUploadFormElement.addEventListener('submit', onUploadFormSubmit);
 
 export {onImageUploadChange};

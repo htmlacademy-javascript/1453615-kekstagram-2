@@ -1,79 +1,4 @@
-const INITIAL_EFFECT = 'none';
-
-const Effects = {
-  'none': {
-    settings: {
-      range: {
-        min: 1,
-        max: 100,
-      },
-      step: 1,
-      start: 100,
-      filter: '',
-      unit: ''
-    }
-  },
-  'chrome': {
-    settings: {
-      range: {
-        min: 0,
-        max: 1
-      },
-      step: 0.1,
-      start: 1,
-      filter: 'grayscale',
-      unit: ''
-    }
-  },
-  'sepia': {
-    settings: {
-      range: {
-        min: 0,
-        max: 1
-      },
-      step: 0.1,
-      start: 1,
-      filter: 'sepia',
-      unit: ''
-    }
-  },
-  'marvin': {
-    settings: {
-      range: {
-        min: 0,
-        max: 100
-      },
-      step: 1,
-      start: 100,
-      filter: 'invert',
-      unit: '%'
-    }
-  },
-  'phobos': {
-    settings: {
-      range: {
-        min: 0,
-        max: 3
-      },
-      step: 0.1,
-      start: 3,
-      filter: 'blur',
-      unit: 'px'
-    }
-  },
-  'heat': {
-    settings: {
-      range: {
-        min: 1,
-        max: 3
-      },
-      step: 0.1,
-      start: 3,
-      filter: 'brightness',
-      unit: ''
-    }
-  }
-};
+import {UserImageEffect} from './config.js';
 
 const imagePreviewElement = document.querySelector('.img-upload__preview img');
 const imageEffectControlElement = document.querySelector('.img-upload__effect-level');
@@ -104,16 +29,16 @@ noUiSlider.create(imageEffectSliderElement, {
 });
 
 const setEffect = (name) => {
-  const {filter, unit} = Effects[name].settings;
+  const {filter, unit} = UserImageEffect.FILTERS[name].settings;
 
   imageEffectControlElement.classList.toggle('hidden', name === 'none');
 
-  imageEffectSliderElement.noUiSlider.updateOptions(Effects[name].settings);
+  imageEffectSliderElement.noUiSlider.updateOptions(UserImageEffect.FILTERS[name].settings);
 
   imageEffectSliderElement.noUiSlider.on('update', () => {
     imageEffectLevelValue.value = imageEffectSliderElement.noUiSlider.get();
-    imagePreviewElement.style.filter = name === INITIAL_EFFECT ? `${filter}` : `${filter}(${imageEffectLevelValue.value}${unit})`;
-    imagePreviewElement.className = name === INITIAL_EFFECT ? '' : `effects__preview--${name}`;
+    imagePreviewElement.style.filter = name === UserImageEffect.INITIAL ? `${filter}` : `${filter}(${imageEffectLevelValue.value}${unit})`;
+    imagePreviewElement.className = name === UserImageEffect.INITIAL ? '' : `effects__preview--${name}`;
   });
 };
 

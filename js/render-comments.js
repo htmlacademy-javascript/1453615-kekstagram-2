@@ -1,5 +1,4 @@
-const INITIAL_COMMENTS_COUNT = 5;
-const COMMENTS_LOAD_STEP = 5;
+import {Comments} from './config.js';
 
 const commentsCounterElement = document.querySelector('.social__comment-count');
 const commentsLoaderButton = document.querySelector('.social__comments-loader');
@@ -12,8 +11,8 @@ const renderComment = ({avatar, name, message}) => {
   commentAvatar.classList.add('social__picture');
   commentAvatar.src = avatar;
   commentAvatar.alt = name;
-  commentAvatar.height = '35';
-  commentAvatar.width = '35';
+  commentAvatar.height = Comments.AVATAR_SIZE;
+  commentAvatar.width = Comments.AVATAR_SIZE;
   commentElement.appendChild(commentAvatar);
 
   const commentText = document.createElement('p');
@@ -50,7 +49,7 @@ const renderCommentsCounter = (currentCount, totalCount) => {
 
 const createCommentsRenderer = (comments) => {
   const totalCount = comments.length;
-  let currentCount = Math.min(INITIAL_COMMENTS_COUNT, totalCount);
+  let currentCount = Math.min(Comments.INITIAL_COUNT, totalCount);
 
   return {
     init: () => {
@@ -59,7 +58,7 @@ const createCommentsRenderer = (comments) => {
     },
     createCommentLoaderButtonHandler: function() {
       return () => {
-        currentCount = Math.min(currentCount + COMMENTS_LOAD_STEP, totalCount);
+        currentCount = Math.min(currentCount + Comments.LOAD_STEP, totalCount);
         renderComments(comments, currentCount);
         renderCommentsCounter(currentCount, totalCount);
       };

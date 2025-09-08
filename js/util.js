@@ -10,13 +10,13 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = getRandomInt(0, array.length - 1);
-    [array[i], array[j]] = [array[j], array[i]];
+const shuffleArray = (items) => {
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = getRandomInt(0, items.length - 1);
+    [items[i], items[j]] = [items[j], items[i]];
   }
 
-  return array;
+  return items;
 };
 
 const isStringLengthValid = (string, length) => string.length > length;
